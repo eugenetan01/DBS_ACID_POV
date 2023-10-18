@@ -1,0 +1,6 @@
+{
+    "account_id": { "$number": { "min": 1111111111, "max": 9999999999 }},
+    "name": "$first",
+    "email": "$email",
+    "balance": {"$numberDecimal": {"min": 0, "max": 0, "fixed": 2}}
+}
