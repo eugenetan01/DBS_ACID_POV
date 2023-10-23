@@ -4,3 +4,4 @@
     "email": "$email",
     "balance": {"$numberDecimal": {"min": 0, "max": 0, "fixed": 2}}
 }
+
