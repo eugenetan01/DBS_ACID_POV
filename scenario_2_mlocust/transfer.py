@@ -32,6 +32,7 @@ from locust import User, events, task, constant, tag, between
 import time
 import requests
 import random
+import json
 
 # Global vars
 # Store the client conn globally so we don't create a conn pool for every user
@@ -113,19 +114,39 @@ class MetricsLocust(User):
         name = "transfer"
 
         try:
-            payer = self.coll.find({}, {"_id": 1})[random.randInt(0, 99)]
-            payee = self.coll.find({}, {"_id": 1})[random.randInt(0, 99)]
+            client = pymongo.MongoClient(
+                "mongodb+srv://sa:admin@dbs.qv1it.mongodb.net/?retryWrites=true&w=majority"
+            )
+            db_payer = client.dbs_payer  # Use your database name
+            collection_payer = db_payer.accounts
+
+            db_payee = client.dbs_payee  # Use your database name
+            collection_payee = db_payee.accounts
+
+            payer = collection_payer.find({}, {"_id": 0, "account_id": 1})[
+                random.randint(0, 99)
+            ]
+            payee = collection_payee.find({}, {"_id": 0, "account_id": 1})[
+                random.randint(0, 99)
+            ]
             # Get the record from the target collection now
             amount = 10
 
-            if random.randInt(1, 10) == 5:
+            if random.randint(1, 10) == 5:
                 amount = 120
 
             body = {"payer": payer, "payee": payee, "amount": amount}
 
+            body = {
+                "payer": payer["account_id"],
+                "payee": payee["account_id"],
+                "amount": amount,
+            }
+            json_data = json.dumps(body)
+
             response = requests.post(
                 "https://ap-southeast-1.aws.data.mongodb-api.com/app/dbs-gpnie/endpoint/casa/transfer",
-                data=body,
+                data=json_data,
             )
 
             events.request.fire(
