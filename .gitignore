@@ -1,1 +1,5 @@
 config.json
+client/package-lock.json
+temp.js
+scenario_2/node_modules
+scenario_2/package-lock.json

@@ -111,16 +111,18 @@ class MetricsLocust(User):
     def _async_find(self):
         # Note that you don't pass in self despite the signature above
         tic = self.get_time()
-        name = "transfer"
+        name = "findOne"
 
         try:
-            client = pymongo.MongoClient(
+            # Get the record from the target collection now
+            newClient = pymongo.MongoClient(
                 "mongodb+srv://sa:admin@dbs.qv1it.mongodb.net/?retryWrites=true&w=majority"
             )
-            db_payer = client.dbs_payer  # Use your database name
+
+            db_payer = newClient.dbs_payer  # Use your database name
             collection_payer = db_payer.accounts
 
-            db_payee = client.dbs_payee  # Use your database name
+            db_payee = newClient.dbs_payee  # Use your database name
             collection_payee = db_payee.accounts
 
             payer = collection_payer.find({}, {"_id": 0, "account_id": 1})[
@@ -129,11 +131,8 @@ class MetricsLocust(User):
             payee = collection_payee.find({}, {"_id": 0, "account_id": 1})[
                 random.randint(0, 99)
             ]
-            # Get the record from the target collection now
-            amount = 10
 
-            if random.randint(1, 10) == 5:
-                amount = 120
+            amount = 10
 
             body = {"payer": payer, "payee": payee, "amount": amount}
 
@@ -165,3 +164,7 @@ class MetricsLocust(User):
             )
             # Add a sleep so we don't overload the system with exceptions
             time.sleep(5)
+
+
+2978571500
+7175354169, 8931131847

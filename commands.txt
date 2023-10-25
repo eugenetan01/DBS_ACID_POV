@@ -1,0 +1,19 @@
+#payee
+use dbs_payer
+db.accounts.updateMany({}, {$set: {balance: NumberDecimal("100")}})
+
+#payee
+use dbs_payee
+db.accounts.updateMany({}, {$set: {balance: NumberDecimal("0")}})
+
+use dbs_transactions_history
+db.transactions.deleteMany({})
+
+db.error_log.deleteMany({})
+
+// --------------------------------
+// {message: /WriteConflict/}
+// {message: /Balance/}
+
+// --------------------------------
+//realm-cli pull --remote dbs-gpnie

@@ -5,10 +5,7 @@ var s2Payer = s2.getDatabase("dbs_payer").getCollection("accounts");
 var s1Payee = s1.getDatabase("dbs_payee").getCollection("accounts");
 var s2Payee = s2.getDatabase("dbs_payee").getCollection("accounts");
 
-s1.startTransaction({
-  readConcern: { level: "snapshot" },
-  writeConcern: { w: "majority" },
-});
+s1.startTransaction();
 
 // Insert player 3, inside a transaction/session1
 s1Payer.updateOne(
