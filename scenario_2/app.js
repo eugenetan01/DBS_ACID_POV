@@ -37,6 +37,7 @@ async function run() {
     // Create an array of Promises for all the POST requests.
     const promises = [];
 
+    // Run a for loop to deduct from 1 payer and add to all payees in order.
     for (let i = 0; i < payerIDs.length; i++) {
       for (let j = 0; j < payeeIDs.length; j++) {
         const body = {
@@ -47,7 +48,7 @@ async function run() {
         tempPayee = payeeIDs[j]["account_id"];
         tempPayer = payerIDs[i]["account_id"];
         promises.push(makePostRequest(apiUrl, body));
-        await sleep(45);
+        await sleep(38); // To slow down concurrency to show the write conflict errors
       }
     }
     // Await all the POST requests concurrently.

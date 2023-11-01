@@ -17,20 +17,23 @@ diff = 0
 
 while True:
     payer_balance = collection_payer.find_one(
-        {"account_id": 6844927457}, {"_id": 0, "balance": 1}
+        {"account_id": 1}, {"_id": 0, "balance": 1}
     )
 
     payee_balance = collection_payee.find_one(
-        {"account_id": 9770119450}, {"_id": 0, "balance": 1}
+        {"account_id": 1}, {"_id": 0, "balance": 1}
     )
 
-    if float(payer_balance["balance"]) < float(diff):
+    decimal_value = payer_balance["balance"].to_decimal()
+
+    if float(str(decimal_value)) < float(diff):
         print("############# CHANGED BALANCE ###################")
         print("Payer balance: " + str(payer_balance))
         print("Payee balance: " + str(payee_balance))
         break
 
-    diff = payer_balance["balance"]
+    diff = decimal_value
+    print("####################################################")
     print("Payer balance: " + str(payer_balance))
     print("Payee balance: " + str(payee_balance))
 

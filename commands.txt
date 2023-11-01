@@ -1,8 +1,8 @@
-#payee
+// payee
 use dbs_payer
 db.accounts.updateMany({}, {$set: {balance: NumberDecimal("100")}})
 
-#payee
+// payee
 use dbs_payee
 db.accounts.updateMany({}, {$set: {balance: NumberDecimal("0")}})
 
@@ -16,4 +16,8 @@ db.error_log.deleteMany({})
 // {message: /Balance/}
 
 // --------------------------------
-//realm-cli pull --remote dbs-gpnie
+// realm-cli pull --remote dbs-gpnie
+
+
+// screen 1: for loop to print current state of payer and payee balance 
+// screen 2: for loop to print the error log in realtime 

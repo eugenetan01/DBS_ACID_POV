@@ -3,3 +3,5 @@ client/package-lock.json
 temp.js
 scenario_2/node_modules
 scenario_2/package-lock.json
+archived/node-server/node_modules
+archived/node-server/package-lock.json

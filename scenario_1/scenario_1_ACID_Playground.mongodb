@@ -9,13 +9,11 @@ var s2Payee = s2.getDatabase("dbs_payee").getCollection("accounts");
 s1.startTransaction({
   readConcern: { level: "snapshot" }, // returns majority-committed data as it appears across shards from a specific single point in time in the recent past
   writeConcern: { w: "majority" },
-  maxCommitTimeMS: 6000000,
 });
 
 s2.startTransaction({
   readConcern: { level: "snapshot" },
   writeConcern: { w: "majority" },
-  maxCommitTimeMS: 6000000,
 });
 
 // Insert player 3, inside a transaction/session1
@@ -52,8 +50,12 @@ s1Payee.find({ account_id: 1 });
 // Commit & end the session (if not committed within 60 secs transaction will timeout)
 s1.commitTransaction();
 
+// show the documents after committing the transaction --> still $100 and $0
 s2Payer.find({ account_id: 1 });
 s2Payee.find({ account_id: 1 });
+
+s2.abortTransaction();
+
 // EXPECTED RESULT: { account_id: 9770119450 } balance should be 10
 s1.endSession();
 s2.endSession();
