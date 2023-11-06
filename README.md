@@ -87,7 +87,7 @@ To do so we will be running 2 scenarios.
 
 ** Architecture for scenario 2 **
 
-![Architecture](img/architecture.png)
+![Architecture](img/architecture.jpg)
 
 - Transfer API: Hosted on MongoDB Atlas App services that controls the ACID transaction block logic using the Callback API
 
