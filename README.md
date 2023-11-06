@@ -85,7 +85,7 @@ To do so we will be running 2 scenarios.
 
 ## Description of scenario 2
 
-** Architecture for scenario 2 **
+**Architecture for scenario 2**
 
 ![Architecture](img/architecture.jpg)
 
@@ -95,7 +95,7 @@ To do so we will be running 2 scenarios.
 
 - MongoDB: Database that stores all payers, payees, error_logs and successful transaction operations
 
-** Client App Logic **
+**Client App Logic**
 
 ![App Logic](img/app_logic.png)
 
