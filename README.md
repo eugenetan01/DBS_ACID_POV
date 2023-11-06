@@ -81,6 +81,12 @@ To do so we will be running 2 scenarios.
 
 **1. Once the changes are committed, the scenario1_base.py should stop running and show that the balance in payer and payee has changed**
 
+**1. Validate the same by logging into MongoDB Compass and going to the payer collection and payee collection to show that the balance has changed:
+
+- Payer account_id = 1: balance = 90
+
+- Payee account_id = 1: balance = 10
+  
 ---
 
 ## Description of scenario 2
