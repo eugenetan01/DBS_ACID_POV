@@ -16,6 +16,8 @@ For this proof, an Atlas cluster will be loaded with [sample data](https://docs.
 
 This proof shows that you can achieve ACID guarantees on a transaction, and how errors are handled and transactions are rolled back during such events.
 
+To do so we will be running 2 scenarios. 
+
 ---
 
 ## Setup
@@ -78,6 +80,32 @@ This proof shows that you can achieve ACID guarantees on a transaction, and how 
 ## Measurement for scenario 1
 
 **1. Once the changes are committed, the scenario1_base.py should stop running and show that the balance in payer and payee has changed**
+
+---
+
+## Description of scenario 2
+
+** Architecture for scenario 2 **
+
+![Architecture](img/architecture.png)
+
+- Transfer API: Hosted on MongoDB Atlas App services that controls the ACID transaction block logic using the Callback API
+
+- App.js: Hosted locally to fire async calls to Transfer APIs
+
+- MongoDB: Database that stores all payers, payees, error_logs and successful transaction operations
+
+** Client App Logic **
+
+![App Logic](img/app_logic.png)
+
+- Iterating over each payer and debiting $10 to each payee
+
+- Runtime is O(n^2)
+
+- This for loop will run async without waiting for the previous transfer call to be successful, simulating high concurrency on a limited set of users
+
+- There is a sleep timer on Line 51 of scenario_2/app.js, adjust to increase or reduce the concurrency to better simulate a controllable amount of errors for demo purposes
 
 ---
 
