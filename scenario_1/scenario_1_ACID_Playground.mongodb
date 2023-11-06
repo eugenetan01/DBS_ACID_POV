@@ -50,10 +50,6 @@ s1Payee.find({ account_id: 1 });
 // Commit & end the session (if not committed within 60 secs transaction will timeout)
 s1.commitTransaction();
 
-// show the documents after committing the transaction --> still $100 and $0
-s2Payer.find({ account_id: 1 });
-s2Payee.find({ account_id: 1 });
-
 s2.abortTransaction();
 
 // EXPECTED RESULT: { account_id: 9770119450 } balance should be 10
