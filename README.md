@@ -63,29 +63,29 @@ This proof shows that you can achieve ACID guarantees on a transaction, and how 
 
 ## Execution for scenario 1
 
-**1. Go to the payer collection first, show that each record is $100
+**1. Go to the payer collection first, show that each record is $100**
 
-**2. Show the payee collection, show that each record  record is $0
+**2. Show the payee collection, show that each record  record is $0**
 
-**3. Run scenario1_base.py script to show the current value of both the payer and payee account selected as an infinite loop
+**3. Run scenario1_base.py script to show the current value of both the payer and payee account selected as an infinite loop**
 
 - The program will exit when a change in value is detected
   
-**4. Copy the scenario1.acid.js line by line into mongosh to show each output and value only changes and visible to session2 once session1 is committed
+**4. Copy the scenario1.acid.js line by line into mongosh to show each output and value only changes and visible to session2 once session1 is committed**
 
 ---
 
 ## Measurement for scenario 1
 
-**1. Once the changes are committed, the scenario1_base.py should stop running and show that the balance in payer and payee has changed 
+**1. Once the changes are committed, the scenario1_base.py should stop running and show that the balance in payer and payee has changed**
 
 ---
 
 ## Execution for scenario 2
 
-**1. Reset the payer back to 100 and payee back to 0 by running the commands in command.txt in the root directory
+**1. Reset the payer back to 100 and payee back to 0 by running the commands in command.txt in the root directory**
 
-**2. Navigate to scenario2 folder to run scenario 2 where there are multiple concurrent API calls to the Transfer API - we want to simulate write conflicts and failure scenarios 
+**2. Navigate to scenario2 folder to run scenario 2 where there are multiple concurrent API calls to the Transfer API - we want to simulate write conflicts and failure scenarios**
 
 - Show the Transfer API in your App services project and walk through the logic as per the comments 
   
@@ -101,29 +101,29 @@ This proof shows that you can achieve ACID guarantees on a transaction, and how 
 
 - Show the transactions collection where records are stored there if successful
 
-**3. Review the app.js script and show that the code is trying to:
+**3. Review the app.js script and show that the code is trying to:**
 
 - pay $10 each from each payer to each payee concurrently without waiting for promises to be returned
 
 - pay $120 at the end to cause balance to be less than $100 - fulfilling the error condition on the Transfer API
 
-**4. Run the app.js script once first to ensure all cold starts on Atlas App Services HTTPs API is cleared
+**4. Run the app.js script once first to ensure all cold starts on Atlas App Services HTTPs API is cleared**
 
-**5. Run the commands in commands.txt in the root directory to reset the db to original clean state
+**5. Run the commands in commands.txt in the root directory to reset the db to original clean state**
 
-**6. Run the app.js script again 
+**6. Run the app.js script again**
 
 ---
 
 ## Measurement for scenario 2
 
-**1. See the printBalance script balance falling for each payer and each payee's balance increasing
+**1. See the printBalance script balance falling for each payer and each payee's balance increasing**
 
-**2. See the printError script showing errors logged in the console that is being read from the error_log collection
+**2. See the printError script showing errors logged in the console that is being read from the error_log collection**
 
-**3. Navigate to the errors_log collection in MongoDB Compass
+**3. Navigate to the errors_log collection in MongoDB Compass**
 
-**4. Show the custom error validation where "Balance of payer is less than 0" and check that:
+**4. Show the custom error validation where "Balance of payer is less than 0" and check that:**
 
 - payer account_id = 1 still has a balance of above 0
 
@@ -131,9 +131,9 @@ This proof shows that you can achieve ACID guarantees on a transaction, and how 
 
 - This shows that the transaction rolled back and failed when the custom error was thrown.  
 
-**5. Go to the error log collection and look for the documents with write conflict
+**5. Go to the error log collection and look for the documents with write conflict**
 
-**6. Pick a record with "WriteConflict" error and check:
+**6. Pick a record with "WriteConflict" error and check:**
 
 - what was the balance of this user in payerBefore (i.e. 100)
 
@@ -143,13 +143,13 @@ This proof shows that you can achieve ACID guarantees on a transaction, and how 
 
 - Note how many failures there were for this record where payerBefore.account_id = 1 (i.e. 2)
 
-**7. Go to the transactions collection and search for the same payerBefore account_id captured in the error_log record and you should see if there 2 errors, there should be 8 transactions successful.
+**7. Go to the transactions collection and search for the same payerBefore account_id captured in the error_log record and you should see if there 2 errors, there should be 8 transactions successful.**
 
-**6. Go to the record where the balance of the same payerBefore.account_id record is the same as the balance in the error_log record that was noted above
+**6. Go to the record where the balance of the same payerBefore.account_id record is the same as the balance in the error_log record that was noted above**
 
 - (i.e. payerBeforeaccount_id = 1, payerBefore.balance: 100)
 
 - This shows that this was the conflicting transaction that caused the transaction in the error log to experience a write conflict and fail, because the payer's balance of the transaction in the error collection was changed by this transaction in the middle of runtime. 
 
-**7. Check at what time did the transaction get logged successfully. You should see the successful transaction timestamp was before the error timestamp, causing the other transaction to fail and experience a write conflict 
+**9. Check at what time did the transaction get logged successfully. You should see the successful transaction timestamp was before the error timestamp, causing the other transaction to fail and experience a write conflict** 
 
